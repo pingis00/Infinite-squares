@@ -51,7 +51,25 @@ body {
   align-items: center;
   min-height: 100vh;
 }
-.container .add-square-button {
+
+.square-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin: 20px 0;
+}
+.square-container .square-area {
+  display: grid;
+  gap: 5px;
+  margin-bottom: 20px;
+}
+.square-container .square-area .square {
+  width: 20px;
+  height: 20px;
+  border: 1px solid black;
+}
+
+.add-square-button {
   background-color: #7030A0;
   border: 2px solid black;
   color: white;
@@ -61,6 +79,6 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
-.container .add-square-button:hover {
+.add-square-button:hover {
   background-color: #552080;
 }
