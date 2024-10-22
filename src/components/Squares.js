@@ -16,13 +16,13 @@ const Squares = ({ gridSize: initialGridSize = 1, initialSquares = [] }) => {
     return newColor;
   }, [lastColor]);
 
-  const addSquare = () => {
+  const addSquare = useCallback(() => {
     const newSquare = {
       id: squares.length,
       color: generateRandomColor(),
     };
     setSquares((prevSquares) => [...prevSquares, newSquare]);
-  };
+  }, [squares, generateRandomColor]);
 
   useEffect(() => {
     if (squares.length > gridSize * gridSize) {
