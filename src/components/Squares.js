@@ -45,24 +45,30 @@ const Squares = ({ gridSize: initialGridSize = 1, initialSquares = [] }) => {
     }
   }, []);
 
+  const gridStyle = useMemo(
+    () => ({
+      gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
+      gridTemplateRows: `repeat(${gridSize}, 1fr)`,
+    }),
+    [gridSize],
+  );
+
+  const squareStyles = useMemo(() => {
+    return squares.map((square, index) => ({
+      backgroundColor: square.color,
+      gridRow: getGridPosition(index).row,
+      gridColumn: getGridPosition(index).col,
+    }));
+  }, [squares, getGridPosition]);
+
   return (
     <div className="square-container">
-      <div
-        className="square-area"
-        style={{
-          gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
-          gridTemplateRows: `repeat(${gridSize}, 1fr)`,
-        }}
-      >
+      <div className="square-area" style={gridStyle}>
         {squares.map((square, index) => (
           <div
             key={square.id}
             className="square"
-            style={{
-              backgroundColor: square.color,
-              gridRow: getGridPosition(index).row,
-              gridColumn: getGridPosition(index).col,
-            }}
+            style={squareStyles[index]}
           ></div>
         ))}
       </div>
