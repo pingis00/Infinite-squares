@@ -44,7 +44,13 @@ body {
   }
 }
 
-.container {
+.squares-interaction .button-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px;
+  gap: 10px;
+}
+.squares-interaction .container {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -81,4 +87,18 @@ body {
 }
 .add-square-button:hover {
   background-color: #552080;
+}
+
+.clear-squares-button {
+  background-color: #d9534f;
+  border: 2px solid black;
+  color: white;
+  padding: 10px 20px;
+  font-size: 16px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.clear-squares-button:hover {
+  background-color: #c9302c;
 }
