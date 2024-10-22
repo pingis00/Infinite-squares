@@ -16,17 +16,3 @@
     }
   }
 }
-.add-square-button {
-  background-color: #7030a0;
-  border: 2px solid black;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #552080;
-  }
-}
