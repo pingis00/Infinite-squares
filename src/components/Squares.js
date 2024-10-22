@@ -72,9 +72,6 @@ const Squares = ({ gridSize: initialGridSize = 1, initialSquares = [] }) => {
           ></div>
         ))}
       </div>
-      <button className="add-square-button" onClick={addSquare}>
-        Lägg till ruta
-      </button>
     </div>
   );
 };
