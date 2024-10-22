@@ -31,27 +31,16 @@ const Squares = ({ gridSize: initialGridSize = 1, initialSquares = [] }) => {
   }, [squares, gridSize]);
 
   const getGridPosition = (index) => {
-    if (index < 4) {
-      const positions = [
-        { row: 1, col: 1 },
-        { row: 1, col: 2 },
-        { row: 2, col: 2 },
-        { row: 2, col: 1 },
-      ];
-      return positions[index];
+    const currentSize = Math.ceil(Math.sqrt(index + 1));
+    const positionInCurrentExpansion =
+      index - (currentSize - 1) * (currentSize - 1);
+    if (positionInCurrentExpansion === 0) {
+      return { row: 1, col: currentSize };
+    } else if (positionInCurrentExpansion < currentSize) {
+      return { row: positionInCurrentExpansion + 1, col: currentSize };
     } else {
-      const currentSize = Math.ceil(Math.sqrt(index + 1));
-      const positionInCurrentExpansion =
-        index - (currentSize - 1) * (currentSize - 1);
-
-      if (positionInCurrentExpansion === 0) {
-        return { row: 1, col: currentSize };
-      } else if (positionInCurrentExpansion < currentSize) {
-        return { row: positionInCurrentExpansion + 1, col: currentSize };
-      } else {
-        const colOffset = 2 * currentSize - positionInCurrentExpansion - 1;
-        return { row: currentSize, col: colOffset > 0 ? colOffset : 1 };
-      }
+      const colOffset = 2 * currentSize - positionInCurrentExpansion - 1;
+      return { row: currentSize, col: colOffset > 0 ? colOffset : 1 };
     }
   };
 
