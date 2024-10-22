@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import PropTypes from "prop-types";
 
 const Squares = ({ gridSize: initialGridSize = 1, initialSquares = [] }) => {
@@ -6,7 +6,7 @@ const Squares = ({ gridSize: initialGridSize = 1, initialSquares = [] }) => {
   const [gridSize, setGridSize] = useState(initialGridSize);
   const [lastColor, setLastColor] = useState(null);
 
-  const generateRandomColor = () => {
+  const generateRandomColor = useCallback(() => {
     const colors = ["#FF5733", "#33FF57", "#3357FF", "#F39C12", "#8E44AD"];
     let newColor = colors[Math.floor(Math.random() * colors.length)];
     while (newColor === lastColor) {
@@ -14,7 +14,7 @@ const Squares = ({ gridSize: initialGridSize = 1, initialSquares = [] }) => {
     }
     setLastColor(newColor);
     return newColor;
-  };
+  }, [lastColor]);
 
   const addSquare = () => {
     const newSquare = {
