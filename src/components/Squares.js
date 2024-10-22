@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import PropTypes from "prop-types";
 
 const Squares = ({ gridSize: initialGridSize = 1, initialSquares = [] }) => {
@@ -30,10 +30,11 @@ const Squares = ({ gridSize: initialGridSize = 1, initialSquares = [] }) => {
     }
   }, [squares, gridSize]);
 
-  const getGridPosition = (index) => {
+  const getGridPosition = useCallback((index) => {
     const currentSize = Math.ceil(Math.sqrt(index + 1));
     const positionInCurrentExpansion =
       index - (currentSize - 1) * (currentSize - 1);
+
     if (positionInCurrentExpansion === 0) {
       return { row: 1, col: currentSize };
     } else if (positionInCurrentExpansion < currentSize) {
@@ -42,7 +43,7 @@ const Squares = ({ gridSize: initialGridSize = 1, initialSquares = [] }) => {
       const colOffset = 2 * currentSize - positionInCurrentExpansion - 1;
       return { row: currentSize, col: colOffset > 0 ? colOffset : 1 };
     }
-  };
+  }, []);
 
   return (
     <div className="square-container">
