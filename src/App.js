@@ -1,10 +1,13 @@
 import Home from "./views/Home";
+import { ErrorProvider } from "./context/ErrorContext";
 
 function App() {
   return (
-    <div className="App">
-      <Home />
-    </div>
+    <ErrorProvider>
+      <div className="App">
+        <Home />
+      </div>
+    </ErrorProvider>
   );
 }
 
