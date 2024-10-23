@@ -21,6 +21,7 @@ export default [
     },
     rules: {
       "prettier/prettier": "error",
+      "linebreak-style": ["error", "unix"],
       "react/react-in-jsx-scope": "off",
     },
   },
