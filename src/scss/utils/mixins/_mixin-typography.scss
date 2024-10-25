@@ -1,0 +1,68 @@
+@use "../colors" as color;
+@use "../mixins/mixin-media" as media;
+
+@mixin heading-style(
+  $size: 16px,
+  $weight: bold,
+  $line-height: 1.2,
+  $color: color.$secondary-color
+) {
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height;
+  margin-bottom: 15px;
+  color: $color;
+
+  @include media.respond-to("mobile") {
+    font-size: $size * 0.7;
+  }
+
+  @include media.respond-to("tablet") {
+    font-size: $size * 0.8;
+  }
+
+  @include media.respond-to("laptop") {
+    font-size: $size * 1;
+  }
+
+  @include media.respond-to("desktop") {
+    font-size: $size * 1.1;
+  }
+
+  @include media.respond-to("ultrawide") {
+    font-size: $size * 1.2;
+  }
+}
+
+@mixin text-style(
+  $size: 1rem,
+  $weight: normal,
+  $line-height: 1.5,
+  $color: color.$text-primary-color
+) {
+  font-size: $size;
+  font-weight: $weight;
+  line-height: $line-height;
+  margin-bottom: 10px;
+  color: $color;
+
+  @include media.respond-to("mobile") {
+    font-size: $size * 0.8;
+  }
+
+  @include media.respond-to("tablet") {
+    font-size: $size * 0.9;
+  }
+
+  @include media.respond-to("laptop") {
+    font-size: $size * 1;
+  }
+
+  @include media.respond-to("desktop") {
+    font-size: $size * 1.1;
+  }
+
+  @include media.respond-to("ultrawide") {
+    font-size: $size * 1.2;
+  }
+}

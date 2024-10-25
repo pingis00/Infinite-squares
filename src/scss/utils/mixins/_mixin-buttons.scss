@@ -1,0 +1,28 @@
+@use "../mixins/mixin-media" as media;
+
+@mixin button-styles(
+  $bg-color,
+  $hover-color,
+  $text-color: #fff,
+  $border-radius: 8px
+) {
+  display: inline-block;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: $text-color;
+  background-color: $bg-color;
+  border: 2px solid black;
+  border-radius: $border-radius;
+  cursor: pointer;
+  text-align: center;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: $hover-color;
+  }
+
+  width: 100%;
+  @include media.respond-to("tablet") {
+    width: auto;
+  }
+}

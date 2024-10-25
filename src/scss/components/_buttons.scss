@@ -1,29 +1,19 @@
-.add-square-button {
-  background-color: #7030a0;
-  border: 2px solid black;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
+@use "../utils/colors" as col;
+@use "sass:color";
+@use "../utils/mixins/mixin-buttons" as btn;
 
-  &:hover {
-    background-color: #552080;
-  }
+.add-square-button {
+  @include btn.button-styles(
+    $bg-color: col.$primary-color, 
+    $hover-color: color.scale(col.$primary-color, $lightness: -20%),
+    $text-color: #fff,                         
+  );
 }
 
 .clear-squares-button {
-  background-color: #d9534f;
-  border: 2px solid black;
-  color: white;
-  padding: 10px 20px;
-  font-size: 16px;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: #c9302c;
-  }
+  @include btn.button-styles(
+    $bg-color: col.$button-danger-color, 
+    $hover-color: color.scale(col.$button-danger-color, $lightness: -20%),
+    $text-color: #fff,                         
+  );
 }
