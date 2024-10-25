@@ -1,4 +1,9 @@
-@import "./base/base";
-@import "./views/home";
-@import "./components/squares";
-@import "./components/buttons";
+@use "./utils/variables";
+@use "./utils/colors";
+@use "./utils/all-mixins";
+@use "./base/base";
+@use "./base/typography";
+@use "./components/buttons";
+@use "./components/squares";
+@use "./components/section-header";
+@use "./views/home";

@@ -1,0 +1,49 @@
+@use "../utils/colors" as color;
+@use "../utils/mixins/mixin-typography" as typo;
+
+h1 {
+  @include typo.heading-style(2.5rem);
+}
+
+h2 {
+  @include typo.heading-style(2rem);
+}
+
+h3 {
+  @include typo.heading-style(1.75rem);
+}
+
+h4 {
+  @include typo.heading-style(1.5rem);
+}
+
+h5 {
+  @include typo.heading-style(1.25rem);
+}
+
+h6 {
+  @include typo.heading-style(1rem);
+}
+
+p {
+  @include typo.text-style();
+  & {
+    margin-bottom: 1.5rem;
+  }
+}
+
+a {
+  @include typo.text-style(
+    $size: 1rem,
+    $weight: normal,
+    $line-height: 1.5,
+    $color: color.$text-primary-color
+  );
+  & {
+    text-decoration: none;
+  }
+
+  &:hover {
+    text-decoration: underline;
+  }
+}
