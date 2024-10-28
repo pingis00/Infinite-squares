@@ -1,5 +1,13 @@
 const API_URL = "https://localhost:7250/api/squares";
 
+const ERROR_MESSAGES = {
+  CREATE:
+    "Failed to create square. Please check your connection and try again.",
+  FETCH: "Failed to load squares. Please refresh the page.",
+  DELETE: "Failed to clear squares. Please try again.",
+  NETWORK: "Network error. Please check your connection.",
+};
+
 export const createSquare = async (square) => {
   try {
     const response = await fetch(`${API_URL}`, {
@@ -11,13 +19,17 @@ export const createSquare = async (square) => {
     });
 
     if (!response.ok) {
-      throw new Error("Failed to create square");
+      throw new Error(ERROR_MESSAGES.CREATE);
     }
 
     return await response.json();
   } catch (error) {
     console.error("Error in createSquare:", error);
-    throw error;
+    throw new Error(
+      error.message === "Failed to fetch"
+        ? ERROR_MESSAGES.NETWORK
+        : ERROR_MESSAGES.CREATE,
+    );
   }
 };
 
@@ -26,13 +38,17 @@ export const getAllSquares = async () => {
     const response = await fetch(`${API_URL}`);
 
     if (!response.ok) {
-      throw new Error("Failed to fetch squares");
+      throw new Error(ERROR_MESSAGES.FETCH);
     }
 
     return await response.json();
   } catch (error) {
     console.error("Error in getAllSquares", error);
-    throw error;
+    throw new Error(
+      error.message === "Failed to fetch"
+        ? ERROR_MESSAGES.NETWORK
+        : ERROR_MESSAGES.FETCH,
+    );
   }
 };
 
@@ -47,12 +63,16 @@ export const deleteAllSquares = async () => {
     }
 
     if (!response.ok) {
-      throw new Error("Failed to delete squares");
+      throw new Error(ERROR_MESSAGES.DELETE);
     }
 
     return await response.text();
   } catch (error) {
     console.error("Error in deleteAllSquares", error);
-    throw error;
+    throw new Error(
+      error.message === "Failed to fetch"
+        ? ERROR_MESSAGES.NETWORK
+        : ERROR_MESSAGES.DELETE,
+    );
   }
 };

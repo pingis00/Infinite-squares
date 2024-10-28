@@ -25,7 +25,7 @@ export const UseSquares = (initialGridSize = 1, initialSquares = []) => {
         setGridSize(Math.max(newGridSize, 1));
       } catch (error) {
         console.error("Failed to fetch squares:", error);
-        setError("Failed to load squares. Please refresh the page.");
+        setError(error.message);
       }
     };
 
@@ -97,7 +97,7 @@ export const UseSquares = (initialGridSize = 1, initialSquares = []) => {
       setSquares((prevSquares) => [...prevSquares, newSquare]);
     } catch (error) {
       console.error("Failed to add a new square", error);
-      setError("Failed to add a new square. Please try again");
+      setError(error.message);
     }
   }, [squares, generateRandomColor, setError, getGridPosition]);
 
@@ -111,7 +111,7 @@ export const UseSquares = (initialGridSize = 1, initialSquares = []) => {
       setGridSize(1);
     } catch (error) {
       console.error("Failed to clear aquares", error);
-      setError("Failed to clear squares. Please try again");
+      setError(error.message);
     }
   }, [squares, setError]);
 
