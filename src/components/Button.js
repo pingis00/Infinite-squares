@@ -1,8 +1,13 @@
 import PropTypes from "prop-types";
 
-const Button = ({ onClick, label, className }) => {
+const Button = ({ onClick, label, className = "default-button" }) => {
   return (
-    <button className={className} onClick={onClick}>
+    <button
+      className={`button ${className}`}
+      onClick={onClick}
+      type="button"
+      aria-label={label}
+    >
       {label}
     </button>
   );
@@ -12,10 +17,6 @@ Button.propTypes = {
   onClick: PropTypes.func.isRequired,
   label: PropTypes.string.isRequired,
   className: PropTypes.string,
-};
-
-Button.defaultProps = {
-  className: "default-button",
 };
 
 export default Button;
