@@ -30,7 +30,7 @@ export const UseSquares = (initialGridSize = 1, initialSquares = []) => {
     };
 
     fetchSquares();
-  }, []);
+  }, [setError]);
 
   const generateRandomColor = useCallback(() => {
     try {
