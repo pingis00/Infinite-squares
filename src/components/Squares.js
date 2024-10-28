@@ -1,35 +1,43 @@
 import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 
-const Squares = ({ squares, gridSize, squareStyles }) => {
-  const [visibleSquares, setVisibleSquares] = useState([]);
+const Squares = ({ squares, gridSize }) => {
+  const [newSquareId, setNewSquareId] = useState(null);
+  const [previousLength, setPreviousLength] = useState(0);
 
   useEffect(() => {
-    if (squares.length === 0) {
-      setVisibleSquares([]);
-    } else if (squares.length > 0) {
-      const newSquare = squares[squares.length - 1];
-      setVisibleSquares((prevVisibleSquares) => [
-        ...prevVisibleSquares,
-        newSquare.id,
-      ]);
-    }
-  }, [squares]);
+    if (squares.length > previousLength) {
+      const lastSquare = squares[squares.length - 1];
+      setNewSquareId(lastSquare.id);
 
-  const gridStyle = {
-    gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
-    gridTemplateRows: `repeat(${gridSize}, 1fr)`,
-  };
+      const timer = setTimeout(() => {
+        setNewSquareId(null);
+      }, 300);
+
+      setPreviousLength(squares.length);
+      return () => clearTimeout(timer);
+    }
+  }, [squares, previousLength]);
 
   return (
     <div className="square-container">
-      <div className="square-area" style={gridStyle}>
-        {squares.map((square, index) => (
+      <div
+        className="square-area"
+        style={{
+          gridTemplateColumns: `repeat(${gridSize}, 1fr)`,
+          gridTemplateRows: `repeat(${gridSize}, 1fr)`,
+        }}
+      >
+        {squares.map((square) => (
           <div
             key={square.id}
-            className={`square ${visibleSquares.includes(square.id) ? "visible" : ""}`}
-            style={squareStyles[index]}
-          ></div>
+            className={`square ${square.id === newSquareId ? "new-square" : ""}`}
+            style={{
+              backgroundColor: square.color,
+              gridRow: square.row,
+              gridColumn: square.column,
+            }}
+          />
         ))}
       </div>
     </div>
@@ -39,7 +47,6 @@ const Squares = ({ squares, gridSize, squareStyles }) => {
 Squares.propTypes = {
   squares: PropTypes.array.isRequired,
   gridSize: PropTypes.number.isRequired,
-  squareStyles: PropTypes.array.isRequired,
 };
 
 export default Squares;
