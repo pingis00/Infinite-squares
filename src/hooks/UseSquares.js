@@ -28,13 +28,9 @@ export const UseSquares = (initialGridSize = 1, initialSquares = []) => {
   useEffect(() => {
     const fetchSquares = async () => {
       try {
-        console.log("Fetching squares...");
         const fetchedSquares = await getAllSquares();
-        console.log("Fetched squares:", fetchedSquares);
         setSquares(fetchedSquares);
-
         const newGridSize = Math.ceil(Math.sqrt(fetchedSquares.length));
-        console.log("Calculated grid size:", newGridSize);
         setGridSize(Math.max(newGridSize, 1));
       } catch (error) {
         console.error("Failed to fetch squares:", error);
@@ -124,9 +120,7 @@ export const UseSquares = (initialGridSize = 1, initialSquares = []) => {
 
   const squareStyles = useMemo(() => {
     try {
-      console.log("Current squares in squareStyles:", squares);
       return squares.map((square) => {
-        console.log("Processing square:", square);
         return {
           backgroundColor: square.color,
           gridRow: square.row,
