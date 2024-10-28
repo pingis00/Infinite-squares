@@ -1,14 +1,14 @@
 import PropTypes from "prop-types";
 
-const SectionHeader = ({ title, subtitle, imgSrc, imgAlt }) => {
+const SectionHeader = ({ title, subtitle, imgSrc, imgAlt = "" }) => {
   return (
-    <section className="section-header">
+    <header className="section-header">
       <div className="header-title">
         {imgSrc && <img src={imgSrc} alt={imgAlt} className="logo" />}
         <h1>{title}</h1>
       </div>
-      <div>{subtitle && <h2>{subtitle}</h2>}</div>
-    </section>
+      {subtitle && <h2 className="subtitle">{subtitle}</h2>}
+    </header>
   );
 };
 
