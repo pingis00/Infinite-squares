@@ -1,11 +1,36 @@
 import { useState, useCallback, useEffect, useMemo } from "react";
 import { useError } from "../context/ErrorContext";
+import {
+  createSquare,
+  deleteAllSquares,
+  getAllSquares,
+} from "../utils/SquareService";
 
 export const UseSquares = (initialGridSize = 1, initialSquares = []) => {
   const [squares, setSquares] = useState(initialSquares);
   const [gridSize, setGridSize] = useState(initialGridSize);
   const [lastColor, setLastColor] = useState(null);
   const { setError } = useError();
+
+  useEffect(() => {
+    const fetchSquares = async () => {
+      try {
+        console.log("Fetching squares...");
+        const fetchedSquares = await getAllSquares();
+        console.log("Fetched squares:", fetchedSquares);
+        setSquares(fetchedSquares);
+
+        const newGridSize = Math.ceil(Math.sqrt(fetchedSquares.length));
+        console.log("Calculated grid size:", newGridSize);
+        setGridSize(Math.max(newGridSize, 1));
+      } catch (error) {
+        console.error("Failed to fetch squares:", error);
+        setError("Failed to load squares. Please refresh the page.");
+      }
+    };
+
+    fetchSquares();
+  }, []);
 
   const generateRandomColor = useCallback(() => {
     try {
@@ -34,36 +59,6 @@ export const UseSquares = (initialGridSize = 1, initialSquares = []) => {
     }
   }, [lastColor, setError]);
 
-  const addSquare = useCallback(() => {
-    try {
-      const newSquare = {
-        id: squares.length,
-        color: generateRandomColor(),
-      };
-      setSquares((prevSquares) => [...prevSquares, newSquare]);
-    } catch (error) {
-      console.error("Failed to add a new square", error);
-      setError("Failed to add a new square. Please try again");
-    }
-  }, [squares, generateRandomColor, setError]);
-
-  const clearSquares = useCallback(() => {
-    try {
-      setSquares([]);
-      setGridSize(1);
-    } catch (error) {
-      console.error("Failed to clear aquares", error);
-
-      setError("Failed to clear squares. Please try again");
-    }
-  }, [setError]);
-
-  useEffect(() => {
-    if (squares.length > gridSize * gridSize) {
-      setGridSize(gridSize + 1);
-    }
-  }, [squares, gridSize]);
-
   const getGridPosition = useCallback(
     (index) => {
       try {
@@ -88,19 +83,61 @@ export const UseSquares = (initialGridSize = 1, initialSquares = []) => {
     [setError],
   );
 
+  const addSquare = useCallback(async () => {
+    try {
+      const position = getGridPosition(squares.length);
+
+      const newSquare = {
+        id: squares.length,
+        color: generateRandomColor(),
+        row: position.row,
+        column: position.col,
+      };
+      await createSquare(newSquare);
+      setSquares((prevSquares) => [...prevSquares, newSquare]);
+    } catch (error) {
+      console.error("Failed to add a new square", error);
+      setError("Failed to add a new square. Please try again");
+    }
+  }, [squares, generateRandomColor, setError, getGridPosition]);
+
+  const clearSquares = useCallback(async () => {
+    try {
+      if (squares.length === 0) {
+        return;
+      }
+      await deleteAllSquares();
+      setSquares([]);
+      setGridSize(1);
+    } catch (error) {
+      console.error("Failed to clear aquares", error);
+      setError("Failed to clear squares. Please try again");
+    }
+  }, [squares, setError]);
+
+  useEffect(() => {
+    if (squares.length > gridSize * gridSize) {
+      setGridSize(gridSize + 1);
+    }
+  }, [squares, gridSize]);
+
   const squareStyles = useMemo(() => {
     try {
-      return squares.map((square, index) => ({
-        backgroundColor: square.color,
-        gridRow: getGridPosition(index).row,
-        gridColumn: getGridPosition(index).col,
-      }));
+      console.log("Current squares in squareStyles:", squares);
+      return squares.map((square) => {
+        console.log("Processing square:", square);
+        return {
+          backgroundColor: square.color,
+          gridRow: square.row,
+          gridColumn: square.column,
+        };
+      });
     } catch (error) {
       console.error("Error generating square styles", error);
       setError("Something went wrong. Please try again.");
       return [];
     }
-  }, [squares, getGridPosition, setError]);
+  }, [squares, setError]);
 
   const gridStyle = useMemo(
     () => ({
