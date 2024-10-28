@@ -6,6 +6,19 @@ import {
   getAllSquares,
 } from "../utils/SquareService";
 
+const COLORS = [
+  "#FF5733",
+  "#33FF57",
+  "#3357FF",
+  "#F39C12",
+  "#8E44AD",
+  "#16A085",
+  "#2980B9",
+  "#C0392B",
+  "#00FFFF",
+  "#FF69B4",
+];
+
 export const UseSquares = (initialGridSize = 1, initialSquares = []) => {
   const [squares, setSquares] = useState(initialSquares);
   const [gridSize, setGridSize] = useState(initialGridSize);
@@ -15,13 +28,9 @@ export const UseSquares = (initialGridSize = 1, initialSquares = []) => {
   useEffect(() => {
     const fetchSquares = async () => {
       try {
-        console.log("Fetching squares...");
         const fetchedSquares = await getAllSquares();
-        console.log("Fetched squares:", fetchedSquares);
         setSquares(fetchedSquares);
-
         const newGridSize = Math.ceil(Math.sqrt(fetchedSquares.length));
-        console.log("Calculated grid size:", newGridSize);
         setGridSize(Math.max(newGridSize, 1));
       } catch (error) {
         console.error("Failed to fetch squares:", error);
@@ -34,21 +43,9 @@ export const UseSquares = (initialGridSize = 1, initialSquares = []) => {
 
   const generateRandomColor = useCallback(() => {
     try {
-      const colors = [
-        "#FF5733",
-        "#33FF57",
-        "#3357FF",
-        "#F39C12",
-        "#8E44AD",
-        "#16A085",
-        "#2980B9",
-        "#C0392B",
-        "#00FFFF",
-        "#FF69B4",
-      ];
-      let newColor = colors[Math.floor(Math.random() * colors.length)];
+      let newColor = COLORS[Math.floor(Math.random() * COLORS.length)];
       while (newColor === lastColor) {
-        newColor = colors[Math.floor(Math.random() * colors.length)];
+        newColor = COLORS[Math.floor(Math.random() * COLORS.length)];
       }
       setLastColor(newColor);
       return newColor;
@@ -123,9 +120,7 @@ export const UseSquares = (initialGridSize = 1, initialSquares = []) => {
 
   const squareStyles = useMemo(() => {
     try {
-      console.log("Current squares in squareStyles:", squares);
       return squares.map((square) => {
-        console.log("Processing square:", square);
         return {
           backgroundColor: square.color,
           gridRow: square.row,
