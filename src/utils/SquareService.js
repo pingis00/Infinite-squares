@@ -1,4 +1,5 @@
-const API_URL = "https://localhost:7250/api/squares";
+/* global process */
+const API_URL = process.env.REACT_APP_API_URL;
 
 const ERROR_MESSAGES = {
   CREATE:
