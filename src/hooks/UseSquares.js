@@ -59,22 +59,37 @@ export const UseSquares = (initialGridSize = 1, initialSquares = []) => {
   const getGridPosition = useCallback(
     (index) => {
       try {
+        // Calculate the current grid size needed to accommodate the new square
+        // Math.sqrt gets the square root, and Math.ceil rounds up to ensure we have enough space
+        // We add 1 to index since we start at 0 but need minimum size of 1
         const currentSize = Math.ceil(Math.sqrt(index + 1));
+
+        // Calculate position within the current expansion
+        // Subtracts the squares from previous grid size to find position in current expansion
+        // Example: for index 4 in a 3x3 grid: 4 - (2 * 2) = 0, meaning first position in new expansion
         const positionInCurrentExpansion =
           index - (currentSize - 1) * (currentSize - 1);
 
+        // Position determination based on calculated values
         if (positionInCurrentExpansion === 0) {
+          // First position in new expansion - always top of the new column
           return { row: 1, col: currentSize };
         } else if (positionInCurrentExpansion < currentSize) {
+          // Positions along the right edge, moving downward
+          // row increases by 1 for each position, column stays at currentSize
           return { row: positionInCurrentExpansion + 1, col: currentSize };
         } else {
+          // Positions along the bottom edge, moving left
+          // Calculate column position from right to left
+          // Row stays at currentSize (bottom edge)
           const colOffset = 2 * currentSize - positionInCurrentExpansion - 1;
           return { row: currentSize, col: colOffset > 0 ? colOffset : 1 };
         }
       } catch (error) {
+        // Error handling in case of calculation failures
         console.error("Error calculating grid position", error);
         setError("Something went wrong. Please try again.");
-        return { row: 1, col: 1 };
+        return { row: 1, col: 1 }; // Default to top-left position
       }
     },
     [setError],
